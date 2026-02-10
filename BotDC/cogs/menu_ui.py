@@ -20,7 +20,7 @@ class MenuSelect(discord.ui.Select):
             ),
             discord.SelectOption(
                 label="Flechas",
-                description="Em breve",
+                description="Calcular Flechas",
                 emoji="🏹",
                 value="flechas"
             ),
@@ -38,20 +38,30 @@ class MenuSelect(discord.ui.Select):
 
         if escolha == "tratados":
             cog = interaction.client.get_cog("TratadosCog")
-            if cog:
-                await cog.iniciar(interaction)
-            else:
-                await interaction.response.send_message(
-                    "❌ Cog de tratados não carregada.",
-                    ephemeral=True
-                )
 
+        elif escolha == "flechas":
+            cog = interaction.client.get_cog("FlechasCog")
+
+        elif escolha == "honra":
+            cog = interaction.client.get_cog("HonraCog")
+
+        else:
+            cog = None
+
+        if cog is None:
+            await interaction.response.send_message(
+                "❌ Sistema não disponível.",
+                ephemeral=True
+            )
+            return
+
+        
+        await cog.iniciar(interaction)
 
 class MenuView(discord.ui.View):
     def __init__(self):
-        super().__init__(timeout=None)
+        super().__init__(timeout=180)
         self.add_item(MenuSelect())
-
 
 class MenuCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -67,4 +77,3 @@ class MenuCog(commands.Cog):
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(MenuCog(bot))
-
