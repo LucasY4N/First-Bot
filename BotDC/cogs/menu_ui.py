@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
-# ---------- SELECT ----------
+
 class MenuSelect(discord.ui.Select):
     def __init__(self):
         options = [
@@ -46,13 +46,13 @@ class MenuSelect(discord.ui.Select):
                     ephemeral=True
                 )
 
-# ---------- VIEW ----------
+
 class MenuView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)
         self.add_item(MenuSelect())
 
-# ---------- COG ----------
+
 class MenuCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -67,3 +67,4 @@ class MenuCog(commands.Cog):
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(MenuCog(bot))
+
